@@ -1,10 +1,16 @@
 import Foundation
 
 // ─────────────────────────────────────────────────────────
-// PathCopier — 极简 Finder 工具栏工具
-// 点一下 → 复制路径 → 退出
+// PathCopier — 点一下 → "啵" → 复制路径 → 退出
 // ─────────────────────────────────────────────────────────
 
+// 先出声（后台播，不等）
+let pop = Process()
+pop.executableURL = URL(fileURLWithPath: "/usr/bin/afplay")
+pop.arguments = ["/System/Library/Sounds/Pop.aiff"]
+try? pop.run()
+
+// 复制路径
 let script = """
 tell application "Finder"
     set sel to selection
@@ -13,6 +19,5 @@ tell application "Finder"
     end if
 end tell
 """
-
 _ = NSAppleScript(source: script)?.executeAndReturnError(nil)
 exit(0)
